@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Đồ thị tri thức cây thuốc – Đỗ Tất Lợi</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌿%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-api="{{ url_for('api_edges') }}" data-cover="{{ url_for('static', filename='img/SachCayThuocGSDoTatLoi.jpg') }}">
+<h1>Đồ thị tri thức được tạo từ cuốn sách “Những cây thuốc và vị thuốc Việt Nam” của GS.TS. Đỗ Tất Lợi<small>Được phát triển bởi Prof Happy AI Research Group, 2026</small></h1>
+<div class="bar">
+  <button id="bDraw">Draw Neighbours</button>
+  <button id="bImg">Show Image</button>
+  <button id="bK">Find k path</button>
+  <button id="bClear" class="dark">Clear All</button>
+  <button id="bOpen" class="light">Mở tệp KG (.csv)</button>
+  <input id="file" type="file" accept=".csv,text/csv" hidden>
+</div>
+<div class="grid">
+  <section class="win"><h2>Cửa sổ 1: Dữ liệu Tri thức</h2><div class="body">
+    <div class="ok" id="fname"></div>
+    <div class="row">
+      <label for="head">Head:</label><input id="head" type="text" list="dlH" size="16">
+      <label for="tail">Tail:</label><input id="tail" type="text" list="dlT" size="16">
+      <button id="bFilter" class="light">Filter</button>
+    </div>
+    <div class="row">
+      <label for="source">Source:</label><input id="source" type="text" list="dlS" size="20">
+      <label for="k">k=</label><input id="k" type="text" size="3" value="2" inputmode="numeric">
+      <label><input id="only" type="checkbox" checked> chỉ từ Source</label>
+    </div>
+    <div class="muted" id="cnt"></div>
+    <div class="tw"><table><thead><tr><th>Head</th><th>Predicate</th><th>Tail</th></tr></thead><tbody id="tb"></tbody></table></div>
+    <datalist id="dlH"></datalist><datalist id="dlT"></datalist><datalist id="dlS"></datalist>
+  </div></section>
+  <section class="win"><h2>Cửa sổ 2: Hướng dẫn &amp; Giới thiệu</h2><div class="body"><div class="guide">📖 GIỚI THIỆU SÁCH “Những cây thuốc và vị thuốc Việt Nam”
+• Tác giả: Giáo sư Tiến sĩ Đỗ Tất Lợi.
+Sách hệ thống hóa đồ sộ các kiến thức về cây thuốc, vị thuốc, động vật và khoáng vật làm thuốc ở Việt Nam. Nội dung gồm các phần chung về lý luận y học cổ truyền (âm dương, ngũ hành, phương pháp bào chế), phân loại chi tiết các nhóm cây thuốc theo tác dụng chữa bệnh (mụn nhọt, bệnh phụ nữ, tiêu hóa, cảm sốt, tim mạch…), kèm mô tả chi tiết và hình ảnh cây thuốc.
+
+🛠 HƯỚNG DẪN SỬ DỤNG:
+1. Máy chủ đọc trực tiếp tệp tri thức static/data/Edges.csv mỗi khi bạn tải trang; sửa tệp rồi tải lại trang là thấy dữ liệu mới. Nút “Mở tệp KG” cho phép đọc một tệp CSV khác từ máy bạn — tệp chỉ được đọc trong trình duyệt, không tải lên máy chủ.
+2. Dùng ô Head/Tail (gõ hoặc chọn; để trống hoặc “All” là xem tất cả) rồi nhấn “Filter”. Bấm vào một ô trong bảng để đưa giá trị đó vào Source.
+3. “Draw Neighbours” vẽ đồ thị các node kề của Source. Bấm vào một node trong đồ thị để chuyển Source sang node đó.
+4. “Show Image” hiển thị bìa sách ở Cửa sổ 3.
+5. “Find k path” tìm các đường đi đơn có độ dài k kèm Predicate ở Cửa sổ 4. Nếu tích “chỉ từ Source”, chỉ liệt kê các đường bắt đầu từ Source; nếu bỏ tích (hoặc Source trống) sẽ tìm trên toàn đồ thị, tối đa 5.000 đường.
+6. “Clear All” làm sạch màn hình.</div></div></section>
+  <section class="win"><h2>Cửa sổ 3: Đồ thị Node kề / Hiển thị Ảnh</h2><div class="body"><div id="stage"></div></div></section>
+  <section class="win"><h2>Cửa sổ 4: Kết quả văn bản (k-path kèm Predicate)</h2><div class="body"><pre id="out"></pre></div></section>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
